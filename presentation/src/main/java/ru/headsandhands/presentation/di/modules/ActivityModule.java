@@ -20,10 +20,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import ru.headsandhands.data.net.api.OpenWeatherAPI;
+import ru.headsandhands.data.repository.OpenWeatherRepository;
 import ru.headsandhands.presentation.BuildConfig;
 
 /**
- * Created by yasina on 01/03/2019
+ * Created by yasina on 10/10/2019
  */
 
 @Module
@@ -31,6 +32,12 @@ public class ActivityModule {
 
     @Inject
     Context mContext;
+
+    @Provides
+    @Singleton
+    OpenWeatherRepository openWeatherRepository(OpenWeatherRepository openWeather) {
+        return openWeather;
+    }
 
     @Provides
     @Singleton
@@ -59,7 +66,7 @@ public class ActivityModule {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://127.0.0.1:8080")
+                .baseUrl("https://samples.openweathermap.org/data/2.5")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())

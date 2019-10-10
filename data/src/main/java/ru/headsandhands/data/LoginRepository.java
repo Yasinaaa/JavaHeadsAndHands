@@ -4,8 +4,7 @@ import ru.headsandhands.domain.LoggedInUser;
 import ru.headsandhands.domain.Result;
 
 /**
- * Class that requests authentication and user information from the remote data source and
- * maintains an in-memory cache of login status and user credentials information.
+ * Created by yasina on 10/10/2019
  */
 public class LoginRepository {
 
