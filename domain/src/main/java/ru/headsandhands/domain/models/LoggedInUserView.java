@@ -1,4 +1,4 @@
-package ru.headsandhands.presentation.view;
+package ru.headsandhands.domain.models;
 
 /**
  * Class exposing authenticated user details to the UI.

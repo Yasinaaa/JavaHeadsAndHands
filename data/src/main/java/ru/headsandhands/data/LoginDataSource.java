@@ -1,8 +1,8 @@
 package ru.headsandhands.data;
 
 import java.io.IOException;
-import ru.headsandhands.domain.LoggedInUser;
-import ru.headsandhands.domain.Result;
+import ru.headsandhands.domain.models.LoggedInUser;
+import ru.headsandhands.domain.models.Result;
 
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.

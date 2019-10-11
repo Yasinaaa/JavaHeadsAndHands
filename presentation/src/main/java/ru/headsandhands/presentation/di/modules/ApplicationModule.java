@@ -7,7 +7,11 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import ru.headsandhands.data.executor.JobExecutor;
+import ru.headsandhands.domain.executors.PostExecutionThread;
+import ru.headsandhands.domain.executors.ThreadExecutor;
 import ru.headsandhands.presentation.AndroidApplication;
+import ru.headsandhands.presentation.di.UIThread;
 
 /**
  * Created by yasina on 01/03/2019
@@ -28,16 +32,16 @@ public class ApplicationModule {
         return this.mApplication;
     }
 
-//    @Provides
-//    @Singleton
-//    PostExecutionThread providePostExecutionThread(UIThread uiThread) {
-//        return uiThread;
-//    }
-//
-//    @Provides
-//    @Singleton
-//    ThreadExecutor provideThreadExecutor(JobExecutor jobExecutor) {
-//        return jobExecutor;
-//    }
+    @Provides
+    @Singleton
+    PostExecutionThread providePostExecutionThread(UIThread uiThread) {
+        return uiThread;
+    }
+
+    @Provides
+    @Singleton
+    ThreadExecutor provideThreadExecutor(JobExecutor jobExecutor) {
+        return jobExecutor;
+    }
 
 }

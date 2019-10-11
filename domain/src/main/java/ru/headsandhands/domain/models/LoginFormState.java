@@ -1,4 +1,4 @@
-package ru.headsandhands.domain;
+package ru.headsandhands.domain.models;
 
 import androidx.annotation.Nullable;
 

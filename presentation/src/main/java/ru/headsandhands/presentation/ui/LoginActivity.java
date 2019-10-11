@@ -10,7 +10,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,15 +27,37 @@ import android.widget.Toast;
 import com.google.android.material.appbar.AppBarLayout;
 
 import ru.headsandhands.presentation.R;
-import ru.headsandhands.domain.LoginFormState;
-import ru.headsandhands.presentation.view.LoggedInUserView;
-import ru.headsandhands.presentation.view.LoginResult;
+import ru.headsandhands.domain.models.LoginFormState;
+import ru.headsandhands.presentation.di.components.DaggerMainComponent;
+import ru.headsandhands.presentation.di.components.MainComponent;
+import ru.headsandhands.presentation.di.modules.ActivityModule;
+import ru.headsandhands.presentation.presenter.LoginActivityPresenter;
+import ru.headsandhands.domain.models.LoggedInUserView;
+import ru.headsandhands.domain.models.LoginResult;
+import ru.headsandhands.presentation.view.LoginActivityView;
 import ru.headsandhands.presentation.viewmodel.LoginViewModel;
 import ru.headsandhands.presentation.viewmodel.LoginViewModelFactory;
 
-public class LoginActivity extends AppCompatActivity {
+/**
+ * Created by yasina on 11/10/2019
+ */
+
+public class LoginActivity extends BasePresenterActivity<MainComponent, LoginActivityPresenter> implements LoginActivityView {
 
     private LoginViewModel loginViewModel;
+
+    @Override
+    protected MainComponent initializeComponent() {
+        return DaggerMainComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .activityModule(new ActivityModule())
+                .build();
+    }
+
+    @Override
+    protected void initializeInjections() {
+        getComponent().inject(this);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -1,7 +1,7 @@
 package ru.headsandhands.data;
 
-import ru.headsandhands.domain.LoggedInUser;
-import ru.headsandhands.domain.Result;
+import ru.headsandhands.domain.models.LoggedInUser;
+import ru.headsandhands.domain.models.Result;
 
 /**
  * Created by yasina on 10/10/2019

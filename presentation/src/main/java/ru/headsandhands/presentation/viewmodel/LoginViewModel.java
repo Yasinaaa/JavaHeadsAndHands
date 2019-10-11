@@ -7,11 +7,11 @@ import android.util.Patterns;
 
 import ru.headsandhands.presentation.R;
 import ru.headsandhands.data.LoginRepository;
-import ru.headsandhands.domain.LoggedInUser;
-import ru.headsandhands.domain.LoginFormState;
-import ru.headsandhands.domain.Result;
-import ru.headsandhands.presentation.view.LoggedInUserView;
-import ru.headsandhands.presentation.view.LoginResult;
+import ru.headsandhands.domain.models.LoggedInUser;
+import ru.headsandhands.domain.models.LoginFormState;
+import ru.headsandhands.domain.models.Result;
+import ru.headsandhands.domain.models.LoggedInUserView;
+import ru.headsandhands.domain.models.LoginResult;
 
 public class LoginViewModel extends ViewModel {
 

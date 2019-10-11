@@ -10,8 +10,7 @@ import ru.headsandhands.presentation.ui.LoginActivity;
  */
 
 @PerActivity
-@Component(dependencies = ApplicationComponent.class)
+@Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class})
 public interface MainComponent extends ApplicationComponent {
-
     void inject(LoginActivity loginActivity);
 }

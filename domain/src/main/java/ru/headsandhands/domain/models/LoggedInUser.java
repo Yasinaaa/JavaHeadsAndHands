@@ -1,4 +1,4 @@
-package ru.headsandhands.domain;
+package ru.headsandhands.domain.models;
 
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository

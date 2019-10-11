@@ -9,7 +9,7 @@ import retrofit2.http.Query;
 import ru.headsandhands.domain.response_model.WeatherInCity;
 
 /**
- * Created by yasina on 08/04/2019
+ * Created by yasina on 10/10/2019
  */
 
 public interface OpenWeatherAPI {
