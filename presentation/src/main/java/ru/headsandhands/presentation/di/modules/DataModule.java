@@ -19,6 +19,8 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
+import ru.headsandhands.data.LoginDataSource;
+import ru.headsandhands.data.LoginRepository;
 import ru.headsandhands.data.net.api.OpenWeatherAPI;
 import ru.headsandhands.data.net.repository.OpenWeatherRepository;
 import ru.headsandhands.domain.repository.ApiRepository;
@@ -38,6 +40,12 @@ public class DataModule {
     @Singleton
     ApiRepository provideApiRepository(OpenWeatherRepository apiRepository) {
         return apiRepository;
+    }
+
+    @Provides
+    @Singleton
+    LoginRepository provideLoginRepository(){
+        return LoginRepository.getInstance(new LoginDataSource());
     }
 
     @Provides

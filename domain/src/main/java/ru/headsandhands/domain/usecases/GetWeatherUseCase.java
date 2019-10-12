@@ -13,13 +13,14 @@ import ru.headsandhands.domain.usecases.base.ApiUseCase;
  * Created by yasina on 10/10/2019
  **/
 
-public class LoginUseCase extends ApiUseCase<WeatherInCity> {
+public class GetWeatherUseCase extends ApiUseCase<WeatherInCity> {
 
+    private final String APID = "b6907d289e10d714a6e88b30761fae22";
     private ApiRepository mRepository;
     private String mCity;
 
     @Inject
-    protected LoginUseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread, ApiRepository cashierRepository) {
+    protected GetWeatherUseCase(ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread, ApiRepository cashierRepository) {
         super(threadExecutor, postExecutionThread);
         this.mRepository = cashierRepository;
     }
@@ -30,7 +31,7 @@ public class LoginUseCase extends ApiUseCase<WeatherInCity> {
 
     @Override
     protected Observable<WeatherInCity> buildUseCaseObservable() {
-        return mRepository.getWeather(mCity);
+        return mRepository.getWeather(mCity, APID);
     }
 
 }

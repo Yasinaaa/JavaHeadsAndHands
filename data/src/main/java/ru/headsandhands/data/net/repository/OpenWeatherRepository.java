@@ -23,7 +23,7 @@ public class OpenWeatherRepository implements ApiRepository {
     }
 
     @Override
-    public Observable<WeatherInCity> getWeather(String city) {
-        return mAPI.login(city);
+    public Observable<WeatherInCity> getWeather(String city, String appid) {
+        return mAPI.login(city, appid);
     }
 }

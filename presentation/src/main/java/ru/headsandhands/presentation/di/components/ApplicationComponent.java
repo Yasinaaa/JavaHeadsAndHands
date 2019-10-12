@@ -5,6 +5,7 @@ import android.content.Context;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import ru.headsandhands.data.LoginRepository;
 import ru.headsandhands.data.net.api.OpenWeatherAPI;
 import ru.headsandhands.domain.executors.PostExecutionThread;
 import ru.headsandhands.domain.executors.ThreadExecutor;
@@ -26,4 +27,5 @@ public interface ApplicationComponent {
     OpenWeatherAPI api();
     Context provideContextApplication();
     ApiRepository getApiRepository();
+    LoginRepository provideLoginRepository();
 }

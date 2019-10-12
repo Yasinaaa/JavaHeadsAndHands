@@ -2,6 +2,7 @@ package ru.headsandhands.data.net.api;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -14,6 +15,6 @@ import ru.headsandhands.domain.response_model.WeatherInCity;
 
 public interface OpenWeatherAPI {
 
-    @POST("/weather")
-    Observable<WeatherInCity> login(@Path("q") String city);
+    @GET("/data/2.5/weather")
+    Observable<WeatherInCity> login(@Query("q") String city, @Query("appid") String appid);
 }

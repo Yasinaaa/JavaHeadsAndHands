@@ -1,7 +1,6 @@
 package ru.headsandhands.presentation.di.modules;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import javax.inject.Singleton;
 

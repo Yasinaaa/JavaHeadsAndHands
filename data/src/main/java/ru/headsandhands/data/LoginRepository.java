@@ -1,5 +1,7 @@
 package ru.headsandhands.data;
 
+import javax.inject.Inject;
+
 import ru.headsandhands.domain.models.LoggedInUser;
 import ru.headsandhands.domain.models.Result;
 
@@ -16,8 +18,8 @@ public class LoginRepository {
     // @see https://developer.android.com/training/articles/keystore
     private LoggedInUser user = null;
 
-    // private constructor : singleton access
-    private LoginRepository(LoginDataSource dataSource) {
+    @Inject
+    public LoginRepository(LoginDataSource dataSource) {
         this.dataSource = dataSource;
     }
 

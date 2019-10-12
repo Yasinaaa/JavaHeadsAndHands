@@ -1,56 +1,65 @@
 package ru.headsandhands.presentation.ui;
 
-import android.app.Activity;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.appbar.AppBarLayout;
+import androidx.annotation.StringRes;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import ru.headsandhands.presentation.R;
-import ru.headsandhands.domain.models.LoginFormState;
 import ru.headsandhands.presentation.di.components.DaggerMainComponent;
 import ru.headsandhands.presentation.di.components.MainComponent;
-import ru.headsandhands.presentation.di.modules.ActivityModule;
-import ru.headsandhands.presentation.presenter.LoginActivityPresenter;
-import ru.headsandhands.domain.models.LoggedInUserView;
-import ru.headsandhands.domain.models.LoginResult;
-import ru.headsandhands.presentation.view.LoginActivityView;
 import ru.headsandhands.presentation.viewmodel.LoginViewModel;
-import ru.headsandhands.presentation.viewmodel.LoginViewModelFactory;
 
 /**
  * Created by yasina on 11/10/2019
  */
 
-public class LoginActivity extends BasePresenterActivity<MainComponent, LoginActivityPresenter> implements LoginActivityView {
+public class LoginActivity extends BaseInjectorActivity<MainComponent> {
 
-    private LoginViewModel loginViewModel;
+    @BindView(R.id.et_email)
+    EditText etEmail;
+    @BindView(R.id.et_password)
+    EditText etPassword;
+    @BindView(R.id.btn_sign_in)
+    Button btnSignIn;
+    @BindView(R.id.app_bar)
+    AppBarLayout appBar;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.til_email)
+    TextInputLayout tilEmail;
+    @BindView(R.id.til_password)
+    TextInputLayout tilPassword;
+    @BindView(R.id.container)
+    ConstraintLayout container;
+
+    @Inject
+    LoginViewModel mLoginViewModel;
 
     @Override
     protected MainComponent initializeComponent() {
         return DaggerMainComponent.builder()
                 .applicationComponent(getApplicationComponent())
-                .activityModule(new ActivityModule())
                 .build();
     }
 
@@ -63,99 +72,77 @@ public class LoginActivity extends BasePresenterActivity<MainComponent, LoginAct
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
+        ButterKnife.bind(this);
 
-        final EditText usernameEditText = findViewById(R.id.et_email);
-        final EditText passwordEditText = findViewById(R.id.et_password);
-        final Button loginButton = findViewById(R.id.btn_sign_in);
-        final ProgressBar loadingProgressBar = findViewById(R.id.pb);
-        final AppBarLayout appBar = findViewById(R.id.app_bar);
-        final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.inflateMenu(R.menu.menu_login);
 
-        loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
-            @Override
-            public void onChanged(@Nullable LoginFormState loginFormState) {
-                if (loginFormState == null) {
-                    return;
-                }
-                loginButton.setEnabled(loginFormState.isDataValid());
-                if (loginFormState.getUsernameError() != null) {
-                    usernameEditText.setError(getString(loginFormState.getUsernameError()));
-                }
-                if (loginFormState.getPasswordError() != null) {
-                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
-                }
+        mLoginViewModel.getLoginFormState().observe(this, loginFormState -> {
+            if (loginFormState == null) {
+                return;
+            }
+            btnSignIn.setEnabled(loginFormState.isPasswordValid());
+            if (!loginFormState.isEmailValid()) {
+                tilEmail.setError(getString(R.string.invalid_email));
+            }else {
+                tilEmail.setErrorEnabled(false);
+            }
+            if (!loginFormState.isPasswordValid()) {
+                tilPassword.setError(getString(R.string.invalid_password));
+            }else {
+                tilPassword.setErrorEnabled(false);
             }
         });
 
-        loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
-            @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
-                if (loginResult == null) {
-                    return;
-                }
-                loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
-                }
-                if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
-                }
-                setResult(Activity.RESULT_OK);
-
-                //Complete and destroy login activity once successful
-                finish();
+        mLoginViewModel.getLoginResult().observe(this, loginResult -> {
+            if (loginResult == null) {
+                return;
             }
+            if (loginResult.getError() != null) {
+                showLoginFailed(loginResult.getError());
+            }
+            if (loginResult.getSuccess() != null) {
+                hideKeyboard();
+                mLoginViewModel.getWeather("London");
+            }
+        });
+
+        mLoginViewModel.getWeatherResult().observe(this, result -> {
+            Snackbar.make(findViewById(android.R.id.content), result, Snackbar.LENGTH_LONG).show();
+            stopProgressDialog();
         });
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // ignore
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // ignore
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                mLoginViewModel.loginDataChanged(etEmail.getText().toString(), etPassword.getText().toString());
             }
         };
-        usernameEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
-                }
-                return false;
+        etEmail.addTextChangedListener(afterTextChangedListener);
+        etPassword.addTextChangedListener(afterTextChangedListener);
+        etPassword.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                onSignInClick();
             }
+            return false;
         });
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            onBackPressed();
         });
     }
 
-    private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+    @OnClick(R.id.btn_sign_in)
+    public void onSignInClick() {
+        startProgressDialog();
+        mLoginViewModel.login(etEmail.getText().toString(), etPassword.getText().toString());
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
@@ -170,12 +157,11 @@ public class LoginActivity extends BasePresenterActivity<MainComponent, LoginAct
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.item_create:
-
+                //todo
                 break;
         }
-
         return true;
     }
 }

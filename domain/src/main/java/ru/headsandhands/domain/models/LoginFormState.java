@@ -1,41 +1,31 @@
 package ru.headsandhands.domain.models;
 
-import androidx.annotation.Nullable;
-
 /**
  * Data validation state of the login form.
  */
 public class LoginFormState {
 
-    @Nullable
-    private Integer usernameError;
-    @Nullable
-    private Integer passwordError;
-    private boolean isDataValid;
+    private boolean emailValid;
+    private boolean passwordValid;
 
-    public LoginFormState(@Nullable Integer usernameError, @Nullable Integer passwordError) {
-        this.usernameError = usernameError;
-        this.passwordError = passwordError;
-        this.isDataValid = false;
+    public LoginFormState(boolean isValidEmail, boolean isValidPassword) {
+        this.emailValid = isValidEmail;
+        this.passwordValid = isValidPassword;
     }
 
-    public LoginFormState(boolean isDataValid) {
-        this.usernameError = null;
-        this.passwordError = null;
-        this.isDataValid = isDataValid;
+    public boolean isEmailValid() {
+        return emailValid;
     }
 
-    @Nullable
-    public Integer getUsernameError() {
-        return usernameError;
+    public void setEmailValid(Boolean emailValid) {
+        this.emailValid = emailValid;
     }
 
-    @Nullable
-    public Integer getPasswordError() {
-        return passwordError;
+    public boolean isPasswordValid() {
+        return passwordValid;
     }
 
-    public boolean isDataValid() {
-        return isDataValid;
+    public void setPasswordValid(boolean passwordValid) {
+        this.passwordValid = passwordValid;
     }
 }
