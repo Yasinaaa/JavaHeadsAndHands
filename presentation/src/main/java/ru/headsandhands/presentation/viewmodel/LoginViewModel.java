@@ -58,13 +58,6 @@ public class LoginViewModel extends BaseViewModel {
         Boolean isValidEmail = isValidEmail(email);
         Boolean isValidPassword = isPasswordValid(password);
         loginFormState.setValue(new LoginFormState(isValidEmail, isValidPassword));
-//        if (!isValidEmail(email)) {
-//            loginFormState.setValue(new LoginFormState(R.string.invalid_email, null));
-//        } else if (!isPasswordValid(password)) {
-//            loginFormState.setValue(new LoginFormState(null, R.string.invalid_password));
-//        } else {
-//            loginFormState.setValue(new LoginFormState(true));
-//        }
     }
 
     private boolean isValidEmail(String username) {

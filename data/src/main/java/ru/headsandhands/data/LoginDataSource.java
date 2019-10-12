@@ -5,25 +5,19 @@ import ru.headsandhands.domain.models.LoggedInUser;
 import ru.headsandhands.domain.models.Result;
 
 /**
- * Class that handles authentication w/ login credentials and retrieves user information.
+ * Created by yasina on 10/10/2019
  */
 public class LoginDataSource {
 
-    public Result<LoggedInUser> login(String username, String password) {
+    public Result<LoggedInUser> login(String email, String password) {
 
         try {
-            // TODO: handle loggedInUser authentication
-            LoggedInUser fakeUser =
-                    new LoggedInUser(
-                            java.util.UUID.randomUUID().toString(),
-                            "Jane Doe");
+            // TODO: saving process
+            LoggedInUser fakeUser = new LoggedInUser(java.util.UUID.randomUUID().toString(), email);
             return new Result.Success<>(fakeUser);
         } catch (Exception e) {
             return new Result.Error(new IOException("Error logging in", e));
         }
     }
 
-    public void logout() {
-        // TODO: revoke authentication
-    }
 }

@@ -1,10 +1,10 @@
 package ru.headsandhands.domain.models;
 
 /**
- * A generic class that holds a result success w/ data or an error exception.
+ * Created by yasina on 10/10/2019
  */
 public class Result<T> {
-    // hide the private constructor to limit subclass types (Success, Error)
+   
     private Result() {
     }
 
@@ -19,8 +19,7 @@ public class Result<T> {
         }
         return "";
     }
-
-    // Success sub-class
+    
     public final static class Success<T> extends Result {
         private T data;
 
@@ -32,8 +31,7 @@ public class Result<T> {
             return this.data;
         }
     }
-
-    // Error sub-class
+    
     public final static class Error extends Result {
         private Exception error;
 

@@ -1,7 +1,7 @@
 package ru.headsandhands.domain.models;
 
 /**
- * Data class that captures user information for logged in users retrieved from LoginRepository
+ * Created by yasina on 10/10/2019
  */
 public class LoggedInUser {
 
