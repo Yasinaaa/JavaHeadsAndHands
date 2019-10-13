@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.StringRes;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.Observer;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.snackbar.Snackbar;
@@ -25,6 +26,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import ru.headsandhands.domain.models.LoginResult;
 import ru.headsandhands.presentation.R;
 import ru.headsandhands.presentation.di.components.DaggerMainComponent;
 import ru.headsandhands.presentation.di.components.MainComponent;
@@ -94,16 +96,19 @@ public class LoginActivity extends BaseInjectorActivity<MainComponent> {
             }
         });
 
-        mLoginViewModel.getLoginResult().observe(this, loginResult -> {
-            if (loginResult == null) {
-                return;
-            }
-            if (loginResult.getError() != null) {
-                showLoginFailed(loginResult.getError());
-            }
-            if (loginResult.getSuccess() != null) {
-                hideKeyboard();
-                mLoginViewModel.getWeather("London");
+        mLoginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
+            @Override
+            public void onChanged(LoginResult loginResult) {
+                if (loginResult == null) {
+                    return;
+                }
+                if (loginResult.getError() != null) {
+                    showLoginFailed(loginResult.getError());
+                }
+                if (loginResult.getSuccess() != null) {
+                    hideKeyboard();
+                    mLoginViewModel.getWeather("London");
+                }
             }
         });
 
