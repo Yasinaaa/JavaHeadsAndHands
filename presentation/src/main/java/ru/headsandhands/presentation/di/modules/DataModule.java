@@ -45,7 +45,7 @@ public class DataModule {
     @Provides
     @Singleton
     LoginRepository provideLoginRepository(){
-        return LoginRepository.getInstance(new LoginDataSource());
+        return new LoginRepository(new LoginDataSource());
     }
 
     @Provides

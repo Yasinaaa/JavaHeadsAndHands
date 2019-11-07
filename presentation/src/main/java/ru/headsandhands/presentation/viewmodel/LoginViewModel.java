@@ -28,9 +28,6 @@ public class LoginViewModel extends BaseViewModel {
     private final String PASSWORD_PATTERN = "^(?=.{6,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$";
 
     @Inject
-    Context mContext;
-
-    @Inject
     LoginRepository mLoginRepository;
 
     @Inject

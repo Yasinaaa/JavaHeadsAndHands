@@ -10,20 +10,14 @@ import ru.headsandhands.domain.models.Result;
  */
 public class LoginRepository {
 
-    private static volatile LoginRepository instance;
-    private LoginDataSource dataSource;
+    @Inject
+    LoginDataSource dataSource;
+
     private LoggedInUser user = null;
 
     @Inject
     public LoginRepository(LoginDataSource dataSource) {
         this.dataSource = dataSource;
-    }
-
-    public static LoginRepository getInstance(LoginDataSource dataSource) {
-        if (instance == null) {
-            instance = new LoginRepository(dataSource);
-        }
-        return instance;
     }
 
     public boolean isLoggedIn() {

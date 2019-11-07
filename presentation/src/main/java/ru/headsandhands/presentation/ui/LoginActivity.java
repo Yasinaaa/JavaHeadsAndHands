@@ -3,6 +3,7 @@ package ru.headsandhands.presentation.ui;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -36,7 +37,7 @@ import ru.headsandhands.presentation.viewmodel.LoginViewModel;
  * Created by yasina on 11/10/2019
  */
 
-public class LoginActivity extends BaseInjectorActivity<MainComponent> {
+public final class LoginActivity extends BaseInjectorActivity<MainComponent> {
 
     @BindView(R.id.et_email)
     EditText etEmail;

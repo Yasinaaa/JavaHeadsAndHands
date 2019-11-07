@@ -34,7 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
     @Nullable
     @BindView(R.id.pb)
-    public ProgressBar pb;
+    protected ProgressBar pb;
 
     @Override
     public void stopProgressDialog() {
